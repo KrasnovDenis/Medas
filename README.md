@@ -12,6 +12,7 @@ Java (JDK >= 8) Hibernate Docker JUnit Spring Security REST PostgreSQL HTML 5 + 
 
 ############## GUIDE FOR USER
 
+
 For successful use this app you must to authorize and choose film what you want to see. In the next step you must to click "Buy ticket" and pay it. Then you can print a ticket, but it's not require, because Administrator and Moderator already has a list of viewers before film screening. In this case you might to show any documents identify you person
 
 ##############
