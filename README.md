@@ -1,6 +1,10 @@
-############## DESCRIPTION This aopplication is designed for the sale of cinema tickets. There is implements 3 roles : User (via Customer) Moderator and Administrator. User
+##############
 
-############# The Aim of the project is the sale of cinema tickets
+DESCRIPTION This aopplication is designed for the sale of cinema tickets. There is implements 3 roles : User (via Customer) Moderator and Administrator. User
+
+############# 
+
+The Aim of the project is the sale of cinema tickets
 
 Technologies
 
