@@ -2,7 +2,7 @@
 <project version="4">
   <component name="DBNavigator.Project.DataEditorManager">
     <record-view-column-sorting-type value="BY_INDEX" />
-    <value-preview-text-wrapping value="true" />
+    <value-preview-text-wrapping value="false" />
     <value-preview-pinned value="false" />
   </component>
   <component name="DBNavigator.Project.DataExportManager">
@@ -24,13 +24,13 @@
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
     <loaded-nodes>
-      <connection connection-id="cd7a769a-5273-44d5-a720-f7ba6f24dab9">
-        <schema name="public" object-types="function, sequence, table, view" />
+      <connection connection-id="38ed865a-873d-4c09-a64a-d308561affd1">
+        <schema name="public" object-types="sequence, index, dataset trigger, constraint, view, function, column, table" />
       </connection>
     </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
-    <connection id="cd7a769a-5273-44d5-a720-f7ba6f24dab9">
+    <connection id="38ed865a-873d-4c09-a64a-d308561affd1">
       <console name="Connection" type="STANDARD" schema="information_schema" session="Main" />
     </connection>
   </component>
@@ -38,7 +38,7 @@
     <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
-    <connection id="cd7a769a-5273-44d5-a720-f7ba6f24dab9" />
+    <connection id="38ed865a-873d-4c09-a64a-d308561affd1" />
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
     <last-used-providers />
@@ -63,23 +63,23 @@
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
-      <connection id="cd7a769a-5273-44d5-a720-f7ba6f24dab9" active="true">
+      <connection id="38ed865a-873d-4c09-a64a-d308561affd1" active="true">
         <database>
           <name value="Connection" />
           <description value="" />
           <database-type value="POSTGRES" />
           <config-type value="BASIC" />
-          <database-version value="12.0" />
+          <database-version value="10.1" />
           <driver-source value="BUILTIN" />
           <driver-library value="" />
           <driver value="" />
           <url-type value="DATABASE" />
           <host value="localhost" />
           <port value="5432" />
-          <database value="postgres" />
+          <database value="medas" />
           <type value="USER_PASSWORD" />
           <user value="postgres" />
-          <deprecated-pwd value="MTIzcXdlYXNk" />
+          <deprecated-pwd value="Qm9ib3J1NzA=" />
         </database>
         <properties>
           <auto-commit value="false" />
