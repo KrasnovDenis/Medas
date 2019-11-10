@@ -1,6 +1,7 @@
 package  nc.Medas.service;
 
 import nc.Medas.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import  nc.Medas.dao.UserDAO;
 
@@ -9,8 +10,13 @@ import java.util.List;
 
 @Service
 public class UserService {
-    private UserDAO userDAO = new UserDAO();
+    /*
 
+    UserDAO userDAO;
+
+    public UserService () {
+        userDAO = new UserDAO();
+    }
 
     public void save(User user) {
         userDAO.save(user);
@@ -31,5 +37,7 @@ public class UserService {
     public List<User> findAll() {
         return userDAO.findAll();
     }
+
+     */
 
 }

@@ -1,21 +1,34 @@
 package nc.Medas.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
+@Table(name = "film", schema = "medas")
 public class Film {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
+    private Integer duration;
     private String title;
-    private int duration;
 
     @Id
-    @Column(name = "id")
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Basic
+    @Column(name = "duration")
+    public Integer getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Integer duration) {
+        this.duration = duration;
     }
 
     @Basic
@@ -28,35 +41,18 @@ public class Film {
         this.title = title;
     }
 
-    @Basic
-    @Column(name = "duration")
-    public int getDuration() {
-        return duration;
-    }
-
-    public void setDuration(int duration) {
-        this.duration = duration;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Film film = (Film) o;
-
-        if (id != film.id) return false;
-        if (duration != film.duration) return false;
-        if (title != null ? !title.equals(film.title) : film.title != null) return false;
-
-        return true;
+        return id == film.id &&
+                Objects.equals(duration, film.duration) &&
+                Objects.equals(title, film.title);
     }
 
     @Override
     public int hashCode() {
-        int result = id;
-        result = 31 * result + (title != null ? title.hashCode() : 0);
-        result = 31 * result + duration;
-        return result;
+        return Objects.hash(id, duration, title);
     }
 }

@@ -1,46 +1,59 @@
 package nc.Medas.dao;
 
 import nc.Medas.model.Film;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.transaction.Transactional;
 import java.util.List;
 
+@Repository
 public class FilmDAO {
+    /*
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("beans");
+
+    private EntityManager getEntityManager() {
+        return emf.createEntityManager();
+    }
+
+    private EntityManager em;
+
+    public FilmDAO() {
+        em = getEntityManager();
+    }
 
     public Film findById(int id) {
-        return HibernateSessionFactoryUtil.getSessionFactory(Film.class).openSession().get(Film.class, id);
+        return em.find(Film.class,new Integer(id));
+
     }
 
+    @Transactional
     public void save(Film film) {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory(Film.class).openSession();
-        Transaction tx1 = session.beginTransaction();
-        session.save(film);
-        tx1.commit();
-        session.close();
+        //EntityManager em = getEntityManager();
+        em.persist(film);
     }
 
+    @Transactional
     public void update(Film film) {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory(Film.class).openSession();
-        Transaction tx1 = session.beginTransaction();
-        session.update(film);
-        tx1.commit();
-        session.close();
+        // EntityManager em = getEntityManager();
+        em.remove(film);
+
     }
 
+    @Transactional
     public void delete(Film film) {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory(Film.class).openSession();
-        Transaction tx1 = session.beginTransaction();
-        session.delete(film);
-        tx1.commit();
-        session.close();
+        //EntityManager em = getEntityManager();
+        em.persist(film);
+
     }
+
 
     @SuppressWarnings("unchecked")
     public List<Film> findAll() {
-        return (List<Film>) HibernateSessionFactoryUtil
-                .getSessionFactory(Film.class).openSession()
-                .createQuery("from Film").list();
-
+        return (List<Film>) em.createQuery("from Film").getResultList();
     }
+    *
+     */
 }

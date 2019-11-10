@@ -1,6 +1,8 @@
 package nc.Medas.service;
 
+import nc.Medas.dao.FilmDAO;
 import nc.Medas.model.Film;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import nc.Medas.dao.FilmDAO;
 
@@ -8,7 +10,13 @@ import java.util.List;
 
 @Service
 public class FilmService {
-    private FilmDAO filmDAO = new FilmDAO();
+    /*
+
+    FilmDAO filmDAO;
+
+    public FilmService () {
+        filmDAO = new FilmDAO();
+    }
 
     public void save(Film film) {
         filmDAO.save(film);
@@ -29,5 +37,7 @@ public class FilmService {
     public List<Film> findAll() {
         return filmDAO.findAll();
     }
+
+     */
 
 }

@@ -12,10 +12,10 @@
 	<artifactId>Medas</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Medas</name>
-	<description>Demo project for Spring Boot</description>
+
 
 	<properties>
-		<java.version>1.8</java.version>
+		<java.version>1.10</java.version>
 	</properties>
 
 	<dependencies>
@@ -27,6 +27,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -54,38 +55,34 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-			<version>5.4.2.Final</version>
+			<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			<version>2.2.0.RELEASE</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.hibernate.jpa</groupId>
+			<artifactId></artifactId>
+		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>8.0.18</version>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-commons</artifactId>
-			<version>2.1.8.RELEASE</version>
-		</dependency>
+
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>9.4.1212.jre7</version>
 		</dependency>
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-jpa</artifactId>
-            <version>2.1.8.RELEASE</version>
-        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot</artifactId>
             <version>2.2.0.RELEASE</version>
         </dependency>
-    </dependencies>
+
+	</dependencies>
 
 	<build>
 		<plugins>

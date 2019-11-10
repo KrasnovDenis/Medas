@@ -1,7 +1,8 @@
 package nc.Medas.controller;
 
 import nc.Medas.model.User;
-import nc.Medas.service.UserService;
+import nc.Medas.repo.UserRepo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,32 +13,44 @@ import java.util.List;
 public class UserController {
 
 
-    @Autowired
-    private UserService userService = new UserService();
+    private final UserRepo service;
 
+    @Autowired
+    UserController(UserRepo service) {
+        this.service = service;
+    }
 
     @GetMapping
     public List<User> list() {
-        return userService.findAll();
+        return service.findAll();
     }
 
     @GetMapping("{id}")
-    public User getUserById(@PathVariable String id) {
-        return userService.findUserById(Integer.parseInt(id));
+    public User getOne(@PathVariable("id") User user) {
+        return user;
     }
+
 
     @PostMapping
     public void createUser(User user) {
-         userService.save(user);
+        service.save(user);
     }
 
-    @PatchMapping("{id}")
-    public void updateUser(@PathVariable String id) {
-        userService.update(userService.findUserById(Integer.parseInt(id)));
+    @PutMapping("{id}")
+    public User update(
+            @PathVariable("id") User messageFromDb,
+            @RequestBody User message
+    ) {
+        BeanUtils.copyProperties(message, messageFromDb, "id");
+
+        return service.save(messageFromDb);
     }
 
     @DeleteMapping("{id}")
-    public void deleteUser(@PathVariable String id) {
-        userService.delete(userService.findUserById(Integer.parseInt(id)));
+    public void delete(@PathVariable("id") User message) {
+
+        service.delete(message);
     }
+
+
 }
