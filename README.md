@@ -8,7 +8,7 @@ The Aim of the project is the sale of cinema tickets
 
 Technologies
 
-Java (JDK >= 8) Hibernate Docker JUnit Spring Security REST PostgreSQL HTML 5 + CSS + JS
+Java (JDK >= 8) Hibernate Docker JUnit Spring Security REST PostgreSQL HTML 5 + CSS + JS + Vue.js
 
 ############## GUIDE FOR USER
 
