@@ -6,13 +6,19 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <class>nc.Medas.model.Film</class>
         <class>nc.Medas.model.User</class>
+        <class>nc.Medas.model.Comment</class>
+        <class>nc.Medas.model.Hall</class>
+        <class>nc.Medas.model.Screen</class>
+        <class>nc.Medas.model.Ticket</class>
+        <class>nc.Medas.model.Permission</class>
+        <class>nc.Medas.model.Role</class>
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
             <property name="hibernate.connection.driver_class" value="com.mysql.cj.jdbc.Driver"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.connection.username" value="root"/>
             <property name="hibernate.connection.password" value="woofwoof"/>
-            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/medas"/>
+            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/medas?serverTimezone=Europe/Saratov"/>
             <property name="hibernate.max_fetch_depth" value="3"/>
 
 

@@ -7,22 +7,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@CrossOrigin
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
 
-    private final UserRepo service;
+    private final UserRepo repository;
 
     @Autowired
-    UserController(UserRepo service) {
-        this.service = service;
+    UserController(UserRepo repository) {
+        this.repository = repository;
     }
 
     @GetMapping
     public List<User> list() {
-        return service.findAll();
+        return repository.findAll();
     }
 
     @GetMapping("{id}")
@@ -32,8 +32,9 @@ public class UserController {
 
 
     @PostMapping
-    public void createUser(User user) {
-        service.save(user);
+    public User createUser(@RequestBody User user) {
+
+        return repository.save(user);
     }
 
     @PutMapping("{id}")
@@ -43,13 +44,13 @@ public class UserController {
     ) {
         BeanUtils.copyProperties(message, messageFromDb, "id");
 
-        return service.save(messageFromDb);
+        return repository.save(messageFromDb);
     }
 
     @DeleteMapping("{id}")
     public void delete(@PathVariable("id") User message) {
 
-        service.delete(message);
+        repository.delete(message);
     }
 
 

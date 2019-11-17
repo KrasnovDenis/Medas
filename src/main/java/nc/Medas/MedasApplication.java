@@ -10,4 +10,7 @@ public class MedasApplication{
 		SpringApplication.run(MedasApplication.class, args);
 	}
 
+
+
+
 }

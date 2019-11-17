@@ -8,26 +8,32 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
+@CrossOrigin
 @RestController
 @RequestMapping("/films")
 public class FilmController {
 
-    private final FilmRepo service;
+    private final FilmRepo repository;
 
     @Autowired
-    FilmController(FilmRepo service) {
-        this.service = service;
+    FilmController(FilmRepo repository) {
+        this.repository = repository;
     }
+
 
     @GetMapping
     public List<Film> list() {
-        return service.findAll();
+        return repository.findAll();
     }
 
     @GetMapping("/{id}")
     public Film getOne(@PathVariable("id") Film film) {
         return film;
+    }
+
+    @PostMapping
+    public Film save(@RequestBody Film film){
+        return repository.save(film);
     }
 
     @PutMapping("{id}")
@@ -37,12 +43,12 @@ public class FilmController {
     ) {
         BeanUtils.copyProperties(film, filmFromDb, "id");
 
-        return service.save(filmFromDb);
+        return repository.save(filmFromDb);
     }
 
     @DeleteMapping("{id}")
     public void delete(@PathVariable("id") Film film) {
-        service.delete(film);
+        repository.delete(film);
     }
 }
 

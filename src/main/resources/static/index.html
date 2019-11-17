@@ -3,24 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Pluss</title>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>
+    <!--    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>-->
+    <!--    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.5.1"></script>-->
 </head>
 <body>
-<div id="app">{{message}}
-
-    <ol>
-        <listy
-                v-for="message in messages"
-                v-bind:key="message.id"
-                v-bind:message="message">
-
-        </listy>
-    </ol>
-
-</div>
+<form style="top: 300px; left: 300px;" method="POST">
+    <input type="text" name="duration" placeholder="Длительность">
+    <input type="text" name="title" placeholder="Название фильма">
+    <input onclick="addFilm()" type="button" value="Добавить фильм">
+</form>
 
 
-</body>
+
+<a href="/users"><h1>Users</h1></a>
+<a href="/films"><h1>Films</h1></a>
+
 <script src="/js/main.js"></script>
+</body>
 </html>
