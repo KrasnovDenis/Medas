@@ -6,4 +6,5 @@ public class JWTProperties {
     public static final String HEADER_STRING = "Authorization";
     public static final int TIME = 1234567; //14 days
 
+
 }

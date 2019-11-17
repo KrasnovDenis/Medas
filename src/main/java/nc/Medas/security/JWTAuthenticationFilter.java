@@ -42,6 +42,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 new ArrayList<>());
 
 
+
         return  manager.authenticate(token);
     }
 

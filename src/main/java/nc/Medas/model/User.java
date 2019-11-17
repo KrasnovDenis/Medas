@@ -31,6 +31,7 @@ public class User {
         this.active = 1;
     }
 
+
     public User(){
 
     }
