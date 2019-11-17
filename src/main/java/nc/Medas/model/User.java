@@ -1,26 +1,39 @@
 package nc.Medas.model;
 
-import javax.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.math.BigInteger;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
+@SuppressWarnings("ALL")
 @Entity
-@Table(name = "user", schema = "medas")
 public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private BigInteger id;
     private String firstName;
     private String lastName;
     private Date birthDate;
     private String telephone;
-    private byte role;
-    private String login;
     private String password;
+    private String login;
+    private String role;
+    private int active;
 
+    public User(String username, String password, String roles, String permissions){
+        this.login = username;
+        this.password = password;
+        this.role = roles;
+        this.active = 1;
+    }
 
+    public User(){
+
+    }
     @Id
     @Column(name = "id")
     public BigInteger getId() {
@@ -51,21 +64,6 @@ public class User {
         this.lastName = lastName;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return id == user.id &&
-                Objects.equals(firstName, user.firstName) &&
-                Objects.equals(lastName, user.lastName);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, firstName, lastName);
-    }
-
     @Basic
     @Column(name = "birth_date")
     public Date getBirthDate() {
@@ -87,13 +85,13 @@ public class User {
     }
 
     @Basic
-    @Column(name = "role")
-    public byte getRole() {
-        return role;
+    @Column(name = "password")
+    public String getPassword() {
+        return password;
     }
 
-    public void setRole(byte role) {
-        this.role = role;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Basic
@@ -107,14 +105,43 @@ public class User {
     }
 
     @Basic
-    @Column(name = "password")
-    public String getPassword() {
-        return password;
+    @Column(name = "role")
+    public String getRole() {
+        return role;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setRole(String role) {
+        this.role = role;
     }
+
+    private String roles = "USER ADMIN MANAGER";
+
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) &&
+                Objects.equals(firstName, user.firstName) &&
+                Objects.equals(lastName, user.lastName) &&
+                Objects.equals(birthDate, user.birthDate) &&
+                Objects.equals(telephone, user.telephone) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(login, user.login) &&
+                Objects.equals(role, user.role);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, lastName, birthDate, telephone, password, login, role);
+    }
+
+
+
+
+
 
 
 }

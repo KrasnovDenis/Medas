@@ -6,9 +6,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 public class UserPrincipal implements UserDetails {
     private User user;
@@ -21,8 +19,16 @@ public class UserPrincipal implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
 
-        GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + user.getRole());
-        authorities.add(authority);
+
+        getPermissionList().forEach(p -> {
+            GrantedAuthority authority = new SimpleGrantedAuthority(p);
+            authorities.add(authority);
+        });
+
+        getRoleList().forEach(r -> {
+            GrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + r);
+            authorities.add(authority);
+        });
 
         return authorities;
     }
@@ -34,7 +40,7 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.user.getFirstName()+ " " + user.getLastName();
+        return this.user.getLogin();
     }
 
     @Override
@@ -55,5 +61,17 @@ public class UserPrincipal implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    private List<String> getPermissionList() {
+
+        return new ArrayList<>() {{
+            add("CAN_READ");
+        }};
+
+    }
+
+    private List<String> getRoleList(){
+        return new ArrayList<>(Collections.singletonList(user.getRole()));
     }
 }
