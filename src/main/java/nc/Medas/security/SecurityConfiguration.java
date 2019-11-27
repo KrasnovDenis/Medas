@@ -1,5 +1,6 @@
 package nc.Medas.security;
 
+import com.google.common.collect.ImmutableList;
 import nc.Medas.repo.UserRepo;
 import nc.Medas.service.UserPrincipalDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +22,16 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.Arrays;
 import java.util.Base64;
 
 @Configuration
 @EnableWebSecurity
+
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private UserPrincipalDetailsService userPrincipal;
@@ -38,38 +44,43 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        http.cors().and().csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManager()))
-                .addFilter(new JWTAuthorizationFilter(authenticationManager(),  this.repository))
+                .addFilter(new JWTAuthorizationFilter(authenticationManager(), this.repository))
+
                 .authorizeRequests()
                 // configure access rules
-                .antMatchers(HttpMethod.POST, "/login").permitAll()
-                .antMatchers("/").permitAll()
-                .antMatchers("/**").authenticated()
+                .antMatchers("/login").permitAll()
+                .antMatchers("/**").permitAll()
                 .antMatchers("/users").hasRole("ADMIN")
                 .antMatchers("/users/**").hasRole("ADMIN")
                 .antMatchers("/films/").hasRole("USER")
                 .antMatchers("/films/**").hasRole("USER")
-                .anyRequest().authenticated();
+                ;
+
+    }
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        final CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(ImmutableList.of("*"));
+        configuration.setAllowedMethods(ImmutableList.of("HEAD",
+                "GET", "POST", "PUT", "DELETE", "PATCH"));
+        configuration.setAllowCredentials(true);
+        configuration.addExposedHeader("Authorization");
+        configuration.setAllowedHeaders(ImmutableList.of( "Cache-Control", "Content-Type"));
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
          auth.authenticationProvider(authenticationProvider());
 
-//        auth
-//                .inMemoryAuthentication()
-//                .withUser("Anatolii")
-//                .password(passwordEncoder()
-//                        .encode("13qwe"))
-//                .roles("USER");
     }
 
-
-    //    @Bean
+//    @Bean
 //    public PrincipalExtractor principalExtractor(UserRepo userRepo) {
 //        return map -> {
 //            BigInteger id = new BigInteger( (String)map.get("sub"));
@@ -92,15 +103,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         daoAuthenticationProvider.setUserDetailsService(userPrincipal);
         return daoAuthenticationProvider;
     }
-//
 
-//    @Bean
-//    PasswordEncoder passwordEncoder() {
-//        DelegatingPasswordEncoder delPasswordEncoder=  (DelegatingPasswordEncoder)PasswordEncoderFactories.createDelegatingPasswordEncoder();
-//        BCryptPasswordEncoder bcryptPasswordEncoder =new BCryptPasswordEncoder();
-//        delPasswordEncoder.setDefaultPasswordEncoderForMatches(bcryptPasswordEncoder);
-//        return delPasswordEncoder;
-//    }
 
 
 

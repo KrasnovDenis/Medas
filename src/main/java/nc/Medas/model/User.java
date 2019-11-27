@@ -4,6 +4,7 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.lang.reflect.Field;
 import java.math.BigInteger;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -31,8 +32,31 @@ public class User {
         this.active = 1;
     }
 
+    public User(String firstName, String lastName, Date birthDate, String telephone, String password, String login, String role, int active, String roles) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.birthDate = birthDate;
+        this.telephone = telephone;
+        this.password = password;
+        this.login = login;
+        this.role = role;
+        this.active = active;
+        this.roles = roles;
+    }
 
     public User(){
+
+    }
+    public User(User userOld) {
+        User newUser = new User();
+        newUser.setLastName(userOld.getLastName());
+        newUser.setFirstName(userOld.getFirstName());
+        newUser.setBirthDate(userOld.getBirthDate());
+        newUser.setId(userOld.getId());
+        newUser.setTelephone(userOld.getTelephone());
+        newUser.setRole(userOld.getRole());
+        newUser.setPassword(userOld.getPassword());
+        newUser.setLogin(userOld.getLogin());
 
     }
     @Id
@@ -138,10 +162,6 @@ public class User {
     public int hashCode() {
         return Objects.hash(id, firstName, lastName, birthDate, telephone, password, login, role);
     }
-
-
-
-
 
 
 
