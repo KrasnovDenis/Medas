@@ -52,12 +52,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 // configure access rules
                 .antMatchers("/login").permitAll()
-                .antMatchers("/**").permitAll()
+                .antMatchers("/registration").permitAll()
+                .antMatchers("/").permitAll()
+                .antMatchers("/films/").permitAll()
+                .antMatchers("/films/**").permitAll()
                 .antMatchers("/users").hasRole("ADMIN")
-                .antMatchers("/users/**").hasRole("ADMIN")
-                .antMatchers("/films/").hasRole("USER")
-                .antMatchers("/films/**").hasRole("USER")
-                ;
+                .antMatchers("/users/**").hasRole("ADMIN");
 
     }
     @Bean
@@ -68,7 +68,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 "GET", "POST", "PUT", "DELETE", "PATCH"));
         configuration.setAllowCredentials(true);
         configuration.addExposedHeader("Authorization");
-        configuration.setAllowedHeaders(ImmutableList.of( "Cache-Control", "Content-Type"));
+        configuration.setAllowedHeaders(ImmutableList.of( "Authorization","Cache-Control", "Content-Type"));
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;

@@ -5,7 +5,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.lang.reflect.Field;
-import java.math.BigInteger;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,7 +14,7 @@ import java.util.Objects;
 @SuppressWarnings("ALL")
 @Entity
 public class User {
-    private BigInteger id;
+    private long id;
     private String firstName;
     private String lastName;
     private Date birthDate;
@@ -24,6 +23,8 @@ public class User {
     private String login;
     private String role;
     private int active;
+    private String email;
+    private double money;
 
     public User(String username, String password, String roles, String permissions){
         this.login = username;
@@ -32,7 +33,7 @@ public class User {
         this.active = 1;
     }
 
-    public User(String firstName, String lastName, Date birthDate, String telephone, String password, String login, String role, int active, String roles) {
+    public User(String firstName,String email, double money, String lastName, Date birthDate, String telephone, String password, String login, String role, int active, String roles) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
@@ -42,6 +43,8 @@ public class User {
         this.role = role;
         this.active = active;
         this.roles = roles;
+        this.money = money;
+        this.email = email;
     }
 
     public User(){
@@ -61,11 +64,11 @@ public class User {
     }
     @Id
     @Column(name = "id")
-    public BigInteger getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(BigInteger id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -83,6 +86,22 @@ public class User {
     @Column(name = "last_name")
     public String getLastName() {
         return lastName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public double getMoney() {
+        return money;
+    }
+
+    public void setMoney(double money) {
+        this.money = money;
     }
 
     public void setLastName(String lastName) {

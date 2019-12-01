@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.math.BigInteger;
 
 @Repository
-public interface UserRepo  extends JpaRepository<User, BigInteger> {
+public interface UserRepo  extends JpaRepository<User, Long> {
     User findByLogin(String login);
 
 }
