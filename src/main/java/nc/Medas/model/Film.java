@@ -14,6 +14,19 @@ public class Film {
     private String producer;
     private int countReview;
 
+    public Film( short duration, String title, double rating, String director, String producer, int countReview) {
+
+        this.duration = duration;
+        this.title = title;
+        this.rating = rating;
+        this.director = director;
+        this.producer = producer;
+        this.countReview = countReview;
+    }
+
+    public Film() {
+    }
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

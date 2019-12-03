@@ -18,8 +18,8 @@ public class Registration {
     }
 
     @PostMapping
-    public void createUser(@RequestBody User user) {
-       repository.save(user);
+    public User createUser(@RequestBody User user) {
+       return repository.save(user);
     }
 
     @GetMapping
@@ -27,10 +27,5 @@ public class Registration {
         return "GET? WTF?!";
     }
 
-
-//    @PostMapping
-//    public User createUser(@RequestBody User user) {
-//        return repository.save(user);
-//    }
 
 }

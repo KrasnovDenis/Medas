@@ -22,7 +22,6 @@ public class User {
     private String password;
     private String login;
     private String role;
-    private int active;
     private String email;
     private double money;
 
@@ -30,10 +29,9 @@ public class User {
         this.login = username;
         this.password = password;
         this.role = roles;
-        this.active = 1;
     }
 
-    public User(String firstName,String email, double money, String lastName, Date birthDate, String telephone, String password, String login, String role, int active, String roles) {
+    public User(String firstName,String email, double money, String lastName, Date birthDate, String telephone, String password, String login, String role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
@@ -41,8 +39,6 @@ public class User {
         this.password = password;
         this.login = login;
         this.role = role;
-        this.active = active;
-        this.roles = roles;
         this.money = money;
         this.email = email;
     }
@@ -51,6 +47,7 @@ public class User {
 
     }
     public User(User userOld) {
+
         User newUser = new User();
         newUser.setLastName(userOld.getLastName());
         newUser.setFirstName(userOld.getFirstName());

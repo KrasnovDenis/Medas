@@ -41,6 +41,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         }
 
         assert credentionals != null;
+
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
                 credentionals.getUsername(),
                 credentionals.getPassword(),
@@ -68,7 +69,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             userToResponse.setPassword("");
             response.setCharacterEncoding("UTF-8");
             response.setHeader("Content-Type", "application/json");
-            response.getWriter().write(new ObjectMapper().writeValueAsString(userPrincipal.getUser()));
+            response.getWriter().write(new ObjectMapper().writeValueAsString(userToResponse));
         }
         catch (Exception e){
             System.out.println("Exception to give response user");

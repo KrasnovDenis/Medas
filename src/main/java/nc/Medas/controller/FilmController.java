@@ -28,8 +28,8 @@ public class FilmController {
     }
 
     @GetMapping("/{id}")
-    public Film getOne(@PathVariable("id") Film film) {
-        return film;
+    public Film getOne(@PathVariable("id") int id) {
+        return repository.getOne(id);
     }
 
     @PostMapping

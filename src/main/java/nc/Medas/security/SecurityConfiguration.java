@@ -54,11 +54,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login").permitAll()
                 .antMatchers("/registration").permitAll()
                 .antMatchers("/").permitAll()
-                .antMatchers("/films/").permitAll()
-                .antMatchers("/films/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/films/").permitAll()
+                .antMatchers(HttpMethod.GET,"/films/**").permitAll()
                 .antMatchers("/users").hasRole("ADMIN")
-                .antMatchers("/users/**").hasRole("ADMIN");
-
+                .antMatchers("/users/**").hasRole("ADMIN")
+;
     }
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
