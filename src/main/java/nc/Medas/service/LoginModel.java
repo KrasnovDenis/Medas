@@ -1,7 +1,13 @@
-package nc.Medas.model;
+package nc.Medas.service;
 public class LoginModel {
     private String username;
     private String password;
+
+
+    LoginModel(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 
     public String getPassword() {
         return password;

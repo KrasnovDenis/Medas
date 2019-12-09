@@ -16,6 +16,7 @@ public class Ticket {
 
     @Id
     @Column(name = "id")
+
     public int getId() {
         return id;
     }

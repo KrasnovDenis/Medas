@@ -9,6 +9,7 @@ public class MedasApplication{
 
 	public static void main(String[] args) {
 		SpringApplication.run(MedasApplication.class, args);
+
 	}
 
 
