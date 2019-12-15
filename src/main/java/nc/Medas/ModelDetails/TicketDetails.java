@@ -1,4 +1,4 @@
-package nc.Medas.service;
+package nc.Medas.ModelDetails;
 
 import java.util.Date;
 
@@ -58,7 +58,7 @@ public class TicketDetails {
         private String hallName;
         private int chair;
 
-        TicketDetailsBuilder() {
+        public TicketDetailsBuilder() {
 
         }
 

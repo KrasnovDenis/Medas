@@ -1,4 +1,4 @@
-package nc.Medas.service;
+package nc.Medas.ModelDetails;
 public class LoginModel {
     private String username;
     private String password;

@@ -1,13 +1,10 @@
 package nc.Medas.service;
 
-import nc.Medas.repo.FilmRepo;
-import nc.Medas.repo.HallRepo;
-import nc.Medas.repo.ScreenRepo;
-import org.hibernate.dialect.MySQL8Dialect;
-import org.springframework.beans.factory.annotation.Autowired;
+import nc.Medas.ModelDetails.ScheduleDetails;
 import org.springframework.stereotype.Service;
 import com.mysql.cj.jdbc.Driver;
 
+import javax.transaction.Transactional;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +17,8 @@ public class ScreenService {
     String password = "woofwoof";
 
 
-    public List<Schedule> getAllScreens() throws SQLException {
-        List<Schedule> listSchedule = new ArrayList<>();
+    public List<ScheduleDetails> getAllScreens() throws SQLException {
+        List<ScheduleDetails> listScheduleDetails = new ArrayList<>();
         try {
             DriverManager.registerDriver(new Driver());
             Connection connection = DriverManager.getConnection(url,username,password);
@@ -33,14 +30,18 @@ public class ScreenService {
                     "        `medas`.`film`.rating as `FilmRating`,\n" +
                     "        `medas`.`hall`.title as `HallTitle`,\n" +
                     "        `medas`.`screen`.date_time as `ScreenDateTime`,\n" +
-                    "        `medas`.`screen`.price as `ScreenPrice`\n" +
+                    "        `medas`.`screen`.price as `ScreenPrice`,\n" +
+                    "        `medas`.`screen`.id as `id_screen`,\n" +
+                    "        `medas`.`screen`.id_hall as `id_hall`\n" +
+                    "        \n" +
                     "        from `medas`.`film` , `medas`.`hall`,`medas`.`screen`\n" +
-                    "        where `medas`.`film`.id = `medas`.`screen`.id_film and `medas`.`hall`.id = `medas`.`screen`.id_hall");
+                    "        where `medas`.`film`.id = `medas`.`screen`.id_film and `medas`.`hall`.id = `medas`.`screen`.id_hall \n" +
+                    "       ");
 
 
             while (resultSet.next()) {
 
-                listSchedule.add(new Schedule.ScheduleBuilder()
+                listScheduleDetails.add(new ScheduleDetails.ScheduleBuilder()
                         .setFilmTitle(resultSet.getString(resultSet.findColumn("FilmTitle")))
                         .setFilmDuration(resultSet.getDouble(resultSet.findColumn("FilmDuration")))
                         .setFilmPoster(resultSet.getString(resultSet.findColumn("FilmPoster")))
@@ -48,6 +49,8 @@ public class ScreenService {
                         .setHallTitle(resultSet.getString(resultSet.findColumn("HallTitle")))
                         .setScreenDateTime(resultSet.getString(resultSet.findColumn("ScreenDateTime")))
                         .setScreenPrice(resultSet.getInt(resultSet.findColumn("ScreenPrice")))
+                        .setIdHall(resultSet.getInt(resultSet.findColumn("id_hall")))
+                        .setIdScreen(resultSet.getInt(resultSet.findColumn("id_screen")))
                         .build()
                 );
 
@@ -58,7 +61,10 @@ public class ScreenService {
         } catch (SQLException e) {
             System.out.println(e);
         }
-        return listSchedule;
+        return listScheduleDetails;
 
     }
+
+
+
 }

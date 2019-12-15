@@ -1,8 +1,6 @@
-package nc.Medas.service;
+package nc.Medas.ModelDetails;
 
-import java.util.Date;
-
-public class Schedule {
+public class ScheduleDetails {
 
     private String Filmtitle;
     private double FilmDuration;
@@ -11,6 +9,16 @@ public class Schedule {
     private String HallTitle;
     private String ScreenDateTime;
     private int ScreenPrice;
+    private int idHall;
+    private int idScreen;
+
+    public int getIdHall() {
+        return idHall;
+    }
+
+    public int getIdScreen() {
+        return idScreen;
+    }
 
     public double getFilmDuration() {
         return FilmDuration;
@@ -41,14 +49,16 @@ public class Schedule {
     }
 
 
-    public Schedule (ScheduleBuilder builder) {
-        this.FilmDuration =builder.FilmDuration;
-        this.FilmPoster= builder.FilmPoster;
+    public ScheduleDetails(ScheduleBuilder builder) {
+        this.FilmDuration = builder.FilmDuration;
+        this.FilmPoster = builder.FilmPoster;
         this.FilmRating = builder.FilmRating;
         this.HallTitle = builder.HallTitle;
         this.ScreenDateTime = builder.ScreenDateTime;
         this.ScreenPrice = builder.ScreenPrice;
         this.Filmtitle = builder.FilmTitle;
+        this.idHall = builder.idHall;
+        this.idScreen = builder.idScreen;
 
     }
 
@@ -61,10 +71,21 @@ public class Schedule {
         private String HallTitle;
         private String ScreenDateTime;
         private int ScreenPrice;
+        private int idHall;
+        private int idScreen;
 
+        public ScheduleBuilder() {
 
-        ScheduleBuilder() {
+        }
 
+        public ScheduleBuilder setIdHall(int idHall) {
+            this.idHall = idHall;
+            return this;
+        }
+
+        public ScheduleBuilder setIdScreen(int idScreen) {
+            this.idScreen = idScreen;
+            return this;
         }
 
         public ScheduleBuilder setFilmDuration(double filmDuration) {
@@ -103,8 +124,8 @@ public class Schedule {
             return this;
         }
 
-        public Schedule build(){
-            return new Schedule(this);
+        public ScheduleDetails build() {
+            return new ScheduleDetails(this);
         }
     }
 

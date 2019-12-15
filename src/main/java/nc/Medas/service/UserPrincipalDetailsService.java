@@ -1,5 +1,6 @@
 package nc.Medas.service;
 
+import nc.Medas.ModelDetails.UserPrincipal;
 import nc.Medas.model.User;
 import nc.Medas.repo.UserRepo;
 import org.springframework.security.core.userdetails.UserDetails;

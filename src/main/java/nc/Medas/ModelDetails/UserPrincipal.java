@@ -1,4 +1,4 @@
-package nc.Medas.service;
+package nc.Medas.ModelDetails;
 
 import nc.Medas.model.User;
 import org.springframework.security.core.GrantedAuthority;

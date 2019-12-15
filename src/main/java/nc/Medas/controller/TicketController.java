@@ -1,9 +1,8 @@
 package nc.Medas.controller;
 
-import nc.Medas.model.Ticket;
 import nc.Medas.model.User;
-import nc.Medas.service.TicketDetails;
-import nc.Medas.service.TicketEntityPrincipal;
+import nc.Medas.ModelDetails.TicketDetails;
+import nc.Medas.ModelDetails.TicketEntityPrincipal;
 import nc.Medas.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,10 +19,9 @@ public class TicketController {
 
 
     @PostMapping
-    public boolean saveTicket(@RequestBody User user,
-                              @RequestBody TicketEntityPrincipal ticketEntityPrincipal) throws SQLException {
+    public boolean saveTicket( @RequestBody TicketEntityPrincipal ticketEntityPrincipal) throws SQLException {
 
-        return ticketService.saveTicket(user, ticketEntityPrincipal);
+        return ticketService.saveTicket( ticketEntityPrincipal);
     }
 
     @GetMapping("{id}")

@@ -1,8 +1,9 @@
 package nc.Medas.controller;
 
-import nc.Medas.service.LoginModel;
+import nc.Medas.config.HashAlgorithm;
 import nc.Medas.model.User;
 import nc.Medas.repo.UserRepo;
+import nc.Medas.ModelDetails.LoginModel;
 import nc.Medas.service.UserPrincipalDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,15 +27,15 @@ public class LoginController {
         UserDetails userDetails = detailsService.loadUserByUsername(creds.getUsername());
 
         if(userDetails != null){
-            if(userDetails.getPassword().equals(creds.getPassword())) {
+            if(userDetails.getPassword().equals(HashAlgorithm.hash(creds.getPassword()))) {
                 User user = repository.findByLogin(creds.getUsername());
-                user.setPassword(null);
-                user.setLogin(null);
                 return user;
             }
         }
 
         return null;
     }
+
+
 
 }

@@ -1,14 +1,11 @@
 package nc.Medas.service;
 
 import com.mysql.cj.jdbc.Driver;
-import nc.Medas.model.Screen;
-import nc.Medas.model.Ticket;
+import nc.Medas.ModelDetails.TicketDetails;
+import nc.Medas.ModelDetails.TicketEntityPrincipal;
 import nc.Medas.model.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpServerErrorException;
 
-import javax.transaction.NotSupportedException;
 import javax.transaction.Transactional;
 import java.sql.*;
 import java.util.ArrayList;
@@ -22,30 +19,34 @@ public class TicketService {
     private String password = "woofwoof";
 
     @Transactional
-    public boolean saveTicket(User user, TicketEntityPrincipal ticketPrincipal) throws SQLException {
+    public boolean saveTicket(TicketEntityPrincipal ticketPrincipal) throws SQLException {
         DriverManager.registerDriver(new Driver());
         try (Connection connection = DriverManager.getConnection(url, username, password)) {
             Statement statement = connection.createStatement();
-
-            if (checkChair(ticketPrincipal.getChair())) {
+            if(!hasUserEnoughMoney(ticketPrincipal)) return false;
+            if (!chairIsBusy(ticketPrincipal.getChair())) {
                 long userId = ticketPrincipal.getUserId();
                 int screenId = ticketPrincipal.getScreenId();
                 int chair = ticketPrincipal.getChair();
 
-//                statement.execute("insert INSERT INTO " +
-//                        "`medas`.`ticket`\n" +
-//                        "(`id_screen`,`id_user`,`chair`)\n" +
-//                        "VALUES(" + screenId + ", " + userId + "," + chair + ");");
+                boolean isInsert = statement.execute(
+                        "INSERT INTO `medas`.`ticket`\n" +
+                            "(`id_screen`,`id_user`,`chair`)\n" +
+                        "    VALUES("+screenId +", "+ userId+", "+chair +");");
 
-                boolean isSuccess = statement.execute("insert INSERT INTO " +
-                        "`medas`.`ticket`\n" +
-                        "(`id_screen`,`id_user`,`chair`)\n" +
-                        "VALUES(" + screenId + ", " + userId + "," + chair + ");");
+                ResultSet resultSet = statement.executeQuery(
+                        "select `price` from `screen` where `id` = "+screenId);
 
-                return isSuccess;
-            } else {
-                return false;
+                resultSet.next();
+                int price = resultSet.getInt(resultSet.findColumn("price"));
+
+
+                boolean isUpdate = statement.execute( "UPDATE `medas`.`user` set `money` = `money`-"+price+" where `id` = "+ userId);
+
+                return !(isUpdate && isInsert);
+
             }
+            return false;
         } catch (SQLException e) {
             System.out.println(e);
         }
@@ -96,11 +97,41 @@ public class TicketService {
         return null;
     }
 
-    private boolean checkChair(int chair) throws SQLException {
+    @Transactional
+    public boolean chairIsBusy(int chair) throws SQLException {
 
         DriverManager.registerDriver(new Driver());
         Connection connection = DriverManager.getConnection(url, username, password);
         Statement statement = connection.createStatement();
-        return true;
+        ResultSet resultSet = statement.executeQuery("select `chair` from `screen`, `ticket`\n " +
+        "\twhere `screen`.`id` = `ticket`.`id_screen` and `chair` = "+ chair);
+        List<Integer> listSeats = new ArrayList<>();
+        if (resultSet.next()) {
+            listSeats.add(resultSet.getInt(resultSet.findColumn("chair")));
+        }
+
+        return listSeats.contains(chair);
     }
+
+    @Transactional
+    public boolean hasUserEnoughMoney(TicketEntityPrincipal principal)throws SQLException {
+        DriverManager.registerDriver(new Driver());
+        Connection connection = DriverManager.getConnection(url, username, password);
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("select  `money`, `price`  from `user`, `screen`\n" +
+                "\t\twhere `screen`.`id` = " + principal.getScreenId() + "\n" +
+                "\t\t\tand `user`.`id` = " + principal.getUserId() + ";");
+
+        int userMoney = 0;
+        int screenPrice = 0;
+
+        while(resultSet.next()) {
+            userMoney = resultSet.getInt(resultSet.findColumn("money"));
+            screenPrice = resultSet.getInt(resultSet.findColumn("price"));
+        }
+
+
+        return userMoney >= screenPrice;
+    }
+
 }

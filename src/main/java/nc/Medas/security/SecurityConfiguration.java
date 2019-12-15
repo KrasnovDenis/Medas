@@ -61,11 +61,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(authenticationEntryPoint)
                 .and()
                 .authorizeRequests()
+                .antMatchers("/").permitAll()
                 .antMatchers(HttpMethod.POST,"/login**").permitAll()
                 .antMatchers(HttpMethod.POST,"/registration**").permitAll()
                 .antMatchers(HttpMethod.GET,"/screen**").permitAll()
-                .antMatchers("/").permitAll()
-                .antMatchers("/films**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET,"/halls**").permitAll()
+                .antMatchers(HttpMethod.GET, "/films**").permitAll()
+                .antMatchers(HttpMethod.POST, "/tickets").hasAnyRole("USER","ADMIN")
+                .antMatchers( "/films**").hasRole("ADMIN")
+                .antMatchers( "/screen**").hasRole("ADMIN")
                 .antMatchers("/users**").hasRole("ADMIN");
     }
 
