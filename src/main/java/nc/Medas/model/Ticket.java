@@ -1,22 +1,18 @@
 package nc.Medas.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import java.math.BigInteger;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 public class Ticket {
     private int id;
-    private int idScreen;
-    private BigInteger idUser;
+    private User user;
+    private Screen screen;
     private short chair;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-
     public int getId() {
         return id;
     }
@@ -25,24 +21,24 @@ public class Ticket {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "id_screen")
-    public int getIdScreen() {
-        return idScreen;
+
+    @ManyToOne
+    @JoinColumn(name = "id_user")
+    public User getUser() {
+        return user;
     }
 
-    public void setIdScreen(int idScreen) {
-        this.idScreen = idScreen;
+    public void setUser(User user) {
+        this.user = user;
+    }
+    @ManyToOne
+    @JoinColumn(name = "id_screen")
+    public Screen getScreen() {
+        return screen;
     }
 
-    @Basic
-    @Column(name = "id_user")
-    public BigInteger getIdUser() {
-        return idUser;
-    }
-
-    public void setIdUser(BigInteger idUser) {
-        this.idUser = idUser;
+    public void setScreen(Screen screen) {
+        this.screen = screen;
     }
 
     @Basic
@@ -61,13 +57,13 @@ public class Ticket {
         if (o == null || getClass() != o.getClass()) return false;
         Ticket ticket = (Ticket) o;
         return id == ticket.id &&
-                idScreen == ticket.idScreen &&
-                idUser == ticket.idUser &&
+                screen == ticket.screen &&
+                user == ticket.user &&
                 chair == ticket.chair;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, idScreen, idUser, chair);
+        return Objects.hash(id, screen, user, chair);
     }
 }

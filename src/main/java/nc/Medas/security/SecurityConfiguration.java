@@ -2,9 +2,8 @@ package nc.Medas.security;
 
 import com.google.common.collect.ImmutableList;
 import nc.Medas.repo.UserRepo;
-import nc.Medas.service.UserPrincipalDetailsService;
+import nc.Medas.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -14,43 +13,34 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.MessageDigestPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
-import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import java.util.Arrays;
-import java.util.Base64;
 
 @Configuration
 @EnableWebSecurity
 
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    @Autowired
     private MyBasicAuthenticationEntryPoint authenticationEntryPoint;
 
 
-    private UserPrincipalDetailsService userPrincipal;
-    private UserRepo repository;
+    private UserService userPrincipal;
 
-    public SecurityConfiguration(UserPrincipalDetailsService userPrincipal, UserRepo repository) {
+
+    public SecurityConfiguration(UserService userPrincipal, MyBasicAuthenticationEntryPoint authenticationEntryPoint) {
         this.userPrincipal = userPrincipal;
-        this.repository = repository;
+        this.authenticationEntryPoint = authenticationEntryPoint;
+
     }
 
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(authenticationProvider());
+
     }
 
     @Override
@@ -62,15 +52,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
-                .antMatchers(HttpMethod.POST,"/login**").permitAll()
-                .antMatchers(HttpMethod.POST,"/registration**").permitAll()
-                .antMatchers(HttpMethod.GET,"/screen**").permitAll()
-                .antMatchers(HttpMethod.GET,"/halls**").permitAll()
+                .antMatchers(HttpMethod.POST, "/login**").permitAll()
+                .antMatchers(HttpMethod.POST, "/registration**").permitAll()
+                .antMatchers(HttpMethod.GET, "/screen**").permitAll()
+                .antMatchers(HttpMethod.GET, "/halls**").permitAll()
                 .antMatchers(HttpMethod.GET, "/films**").permitAll()
-                .antMatchers(HttpMethod.POST, "/tickets").hasAnyRole("USER","ADMIN")
-                .antMatchers( "/films**").hasRole("ADMIN")
-                .antMatchers( "/screen**").hasRole("ADMIN")
-                .antMatchers("/users**").hasRole("ADMIN");
+                .antMatchers(HttpMethod.POST, "/tickets").hasAnyRole("USER", "ADMIN")
+                .antMatchers(HttpMethod.POST, "/films**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/screen**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/users**").hasRole("ADMIN");
     }
 
     @Bean
@@ -90,13 +80,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return new MessageDigestPasswordEncoder("SHA-512");
     }
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
+        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
         daoAuthenticationProvider.setUserDetailsService(userPrincipal);
         return daoAuthenticationProvider;
     }

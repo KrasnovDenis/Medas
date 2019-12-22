@@ -2,16 +2,13 @@ package nc.Medas.model;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Objects;
 
 @Entity
 public class Screen {
     private int id;
-    private int idHall;
-    private int idFilm;
+    private Hall hall;
+    private Film film;
     private Timestamp dateTime;
     private double price;
 
@@ -26,24 +23,25 @@ public class Screen {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "id_hall")
-    public int getIdHall() {
-        return idHall;
+
+    @ManyToOne
+    @JoinColumn(name = "id_hall")
+    public Hall getHall() {
+        return hall;
     }
 
-    public void setIdHall(int idHall) {
-        this.idHall = idHall;
+    public void setHall(Hall hall) {
+        this.hall = hall;
     }
 
-    @Basic
-    @Column(name = "id_film")
-    public int getIdFilm() {
-        return idFilm;
+    @ManyToOne
+    @JoinColumn(name = "id_film")
+    public Film getFilm() {
+        return film;
     }
 
-    public void setIdFilm(int idFilm) {
-        this.idFilm = idFilm;
+    public void setFilm(Film film) {
+        this.film = film;
     }
 
     @Basic
@@ -72,14 +70,14 @@ public class Screen {
         if (o == null || getClass() != o.getClass()) return false;
         Screen screen = (Screen) o;
         return id == screen.id &&
-                idHall == screen.idHall &&
-                idFilm == screen.idFilm &&
+                hall == screen.hall &&
+                film == screen.film &&
                 Double.compare(screen.price, price) == 0 &&
                 Objects.equals(dateTime, screen.dateTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, idHall, idFilm, dateTime, price);
+        return Objects.hash(id, hall, film, dateTime, price);
     }
 }

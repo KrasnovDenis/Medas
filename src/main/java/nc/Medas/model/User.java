@@ -1,20 +1,12 @@
 package nc.Medas.model;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import java.lang.reflect.Field;
+import javax.persistence.*;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 
-@SuppressWarnings("ALL")
 @Entity
 public class User {
-    private long id;
+    private int id;
     private String firstName;
     private String lastName;
     private Date birthDate;
@@ -22,50 +14,17 @@ public class User {
     private String password;
     private String login;
     private String role;
-    private String email;
     private double money;
+    private String email;
 
-    public User(String username, String password, String roles, String permissions){
-        this.login = username;
-        this.password = password;
-        this.role = roles;
-    }
-
-    public User(String firstName,String email, double money, String lastName, Date birthDate, String telephone, String password, String login, String role) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.birthDate = birthDate;
-        this.telephone = telephone;
-        this.password = password;
-        this.login = login;
-        this.role = role;
-        this.money = money;
-        this.email = email;
-    }
-
-    public User(){
-
-    }
-    public User(User userOld) {
-
-        User newUser = new User();
-        newUser.setLastName(userOld.getLastName());
-        newUser.setFirstName(userOld.getFirstName());
-        newUser.setBirthDate(userOld.getBirthDate());
-        newUser.setId(userOld.getId());
-        newUser.setTelephone(userOld.getTelephone());
-        newUser.setRole(userOld.getRole());
-        newUser.setPassword(userOld.getPassword());
-        newUser.setLogin(userOld.getLogin());
-
-    }
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -83,22 +42,6 @@ public class User {
     @Column(name = "last_name")
     public String getLastName() {
         return lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public double getMoney() {
-        return money;
-    }
-
-    public void setMoney(double money) {
-        this.money = money;
     }
 
     public void setLastName(String lastName) {
@@ -155,30 +98,45 @@ public class User {
         this.role = role;
     }
 
-    private String roles = "USER ADMIN MANAGER";
+    @Basic
+    @Column(name = "money")
+    public double getMoney() {
+        return money;
+    }
 
+    public void setMoney(double money) {
+        this.money = money;
+    }
 
+    @Basic
+    @Column(name = "email")
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) &&
+        return id == user.id &&
+                Double.compare(user.money, money) == 0 &&
                 Objects.equals(firstName, user.firstName) &&
                 Objects.equals(lastName, user.lastName) &&
                 Objects.equals(birthDate, user.birthDate) &&
                 Objects.equals(telephone, user.telephone) &&
                 Objects.equals(password, user.password) &&
                 Objects.equals(login, user.login) &&
-                Objects.equals(role, user.role);
+                Objects.equals(role, user.role) &&
+                Objects.equals(email, user.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, birthDate, telephone, password, login, role);
+        return Objects.hash(id, firstName, lastName, birthDate, telephone, password, login, role, money, email);
     }
-
-
-
 }

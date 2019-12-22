@@ -1,8 +1,7 @@
 package nc.Medas.controller;
 
-import nc.Medas.model.User;
-import nc.Medas.ModelDetails.TicketDetails;
-import nc.Medas.ModelDetails.TicketEntityPrincipal;
+import nc.Medas.model.Ticket;
+import nc.Medas.repo.UserRepo;
 import nc.Medas.service.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,18 +16,23 @@ public class TicketController {
     @Autowired
     private TicketService ticketService;
 
+    @Autowired
+    private UserRepo userRepo;
 
     @PostMapping
-    public boolean saveTicket( @RequestBody TicketEntityPrincipal ticketEntityPrincipal) throws SQLException {
-
-        return ticketService.saveTicket( ticketEntityPrincipal);
+    public Ticket saveTicket(@RequestBody Ticket ticket) throws SQLException {
+        return ticketService.saveTicketByTicket(ticket);
     }
 
     @GetMapping("{id}")
-    public List<TicketDetails> getTicket(@PathVariable("id") User user) throws SQLException {
-        return ticketService.getTickets(user);
+    public List<Ticket> getTicket(@PathVariable("id") int idUser) throws SQLException {
+        return ticketService.getTicketsByUser(userRepo.findById(idUser).get());
     }
 
+    @GetMapping
+    public List<Ticket> getAllTickets() {
+        return ticketService.getAllTickets();
+    }
 
 
 }

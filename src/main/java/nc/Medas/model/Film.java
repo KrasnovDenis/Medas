@@ -14,22 +14,9 @@ public class Film {
     private String producer;
     private int countReview;
 
-    public Film( short duration, String title, double rating, String director, String producer, int countReview) {
-
-        this.duration = duration;
-        this.title = title;
-        this.rating = rating;
-        this.director = director;
-        this.producer = producer;
-        this.countReview = countReview;
-    }
-
-    public Film() {
-    }
-
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     public int getId() {
         return id;
     }
@@ -114,9 +101,9 @@ public class Film {
         if (o == null || getClass() != o.getClass()) return false;
         Film film = (Film) o;
         return id == film.id &&
+                duration == film.duration &&
                 Double.compare(film.rating, rating) == 0 &&
                 countReview == film.countReview &&
-                Objects.equals(duration, film.duration) &&
                 Objects.equals(title, film.title) &&
                 Objects.equals(poster, film.poster) &&
                 Objects.equals(director, film.director) &&

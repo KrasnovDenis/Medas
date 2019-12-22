@@ -1,6 +1,5 @@
 package nc.Medas.controller;
 
-import nc.Medas.ModelDetails.ScheduleDetails;
 import nc.Medas.model.Screen;
 import nc.Medas.repo.ScreenRepo;
 import nc.Medas.service.ScreenService;
@@ -22,7 +21,7 @@ public class ScreenController {
 
 
     @GetMapping
-    public List<ScheduleDetails> getAllScreens() throws SQLException {
+    public List<Screen> getAllScreens() throws SQLException {
         return screenService.getAllScreens();
     }
 

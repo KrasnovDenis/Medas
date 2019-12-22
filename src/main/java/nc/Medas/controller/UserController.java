@@ -27,9 +27,10 @@ public class UserController {
     }
 
     @GetMapping("{id}")
-    public User getOne(@PathVariable("id") User user) {
-        return user;
+    public User getOne(@PathVariable("id") int id) {
+        return repository.findById(id).get();
     }
+
 
 
     @PostMapping
