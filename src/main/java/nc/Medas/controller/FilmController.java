@@ -1,9 +1,7 @@
 package nc.Medas.controller;
 
 import nc.Medas.model.Film;
-import nc.Medas.repo.FilmRepo;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import nc.Medas.service.FilmService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,42 +12,37 @@ import java.util.List;
 public class FilmController {
 
 
-    private final FilmRepo repository;
+    private final FilmService filmService;
 
-    @Autowired
-    FilmController(FilmRepo repository) {
-        this.repository = repository;
+
+    public FilmController(FilmService filmService) {
+        this.filmService = filmService;
     }
 
 
     @GetMapping
     public List<Film> list() {
-        return repository.findAll();
+        return filmService.findAll();
     }
 
     @GetMapping("/{id}")
-    public Film getOne(@PathVariable("id") Film film) {
-        return film;
+    public Film getOne(@PathVariable("id") int idFilm) {
+        return filmService.findById(idFilm);
     }
 
     @PostMapping
-    public Film save(@RequestBody Film film){
-        return repository.save(film);
+    public Film save(@RequestBody Film film) {
+        return filmService.save(film);
     }
 
-    @PutMapping("{id}")
-    public Film update(
-            @PathVariable("id") Film filmFromDb,
-            @RequestBody Film film
-    ) {
-        BeanUtils.copyProperties(film, filmFromDb, "id");
-
-        return repository.save(filmFromDb);
+    @PutMapping
+    public void update(@RequestBody Film film) {
+        filmService.update(film);
     }
 
     @DeleteMapping("{id}")
-    public void delete(@PathVariable("id") Film film) {
-        repository.delete(film);
+    public void delete(@PathVariable("id") int film) {
+        filmService.deleteById(film);
     }
 
 

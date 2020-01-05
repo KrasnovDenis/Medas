@@ -17,51 +17,44 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class LoginUserTest {
+public class HallTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    public void getOnLogin() throws Exception { //get mapping not supported to Login
-        mockMvc.perform(get("/login"))
+    public void badCredential() throws Exception {
+        mockMvc.perform(get("/halls").param("Authorization", "Fake password"))
                 .andDo(print())
                 .andExpect(status().is4xxClientError());
     }
-
-
-
     @Test
-    public void badCreds()throws Exception {
-        String jsonLoginModel = "{\n" +
-                "\t\"username\":\"FakeUsername\",\n" +
-                "\t\"password\":\"FakePassword\"\n" +
-                "}\n";
+    public void permissionDenied() throws Exception {
+        String json = "{\n" +
+                "            \"title\": \"Большой зал\",\n" +
+                "            \"capacity\": 50\n" +
+                "        }";
 
-        mockMvc.perform(post("/login")
+        mockMvc.perform(post("/halls")
+                .header("Authorization", "Basic Q3liZXJQdW5rOjEyM3F3ZWFzZA==")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(jsonLoginModel))
+                .content(json))
                 .andDo(print())
-                .andExpect(status().is4xxClientError());
-
+                .andExpect(status().isForbidden());
     }
 
     @Test
-    public void successfulLogin()throws Exception {
-        String jsonLoginModel = "{\n" +
-                "\t\"username\":\"Batr\",\n" +
-                "\t\"password\":\"123qweasd\"\n" +
-                "}\n";
+    public void addHall() throws Exception {
+        String json = "{\n" +
+                "            \"title\": \"Большой зал\",\n" +
+                "            \"capacity\": 50\n" +
+                "        }";
 
-        mockMvc.perform(post("/login")
+        mockMvc.perform(post("/halls")
+                .header("Authorization", "Basic RHVkZTczOjEyM3F3ZWFzZA==")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(jsonLoginModel))
+                .content(json))
                 .andDo(print())
                 .andExpect(status().isOk());
-
     }
-
-
-
-
 }

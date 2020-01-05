@@ -1,6 +1,9 @@
 package nc.Medas.model;
 
+import org.springframework.data.util.Lazy;
+
 import javax.persistence.*;
+import java.util.Arrays;
 import java.util.Objects;
 
 @Entity
@@ -15,7 +18,6 @@ public class Film {
     private int countReview;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     public int getId() {
         return id;
@@ -45,7 +47,7 @@ public class Film {
         this.title = title;
     }
 
-    @Basic
+
     @Column(name = "poster")
     public String getPoster() {
         return poster;
@@ -112,6 +114,8 @@ public class Film {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, duration, title, poster, rating, director, producer, countReview);
+        int result = Objects.hash(id, duration, title, rating, director, producer, countReview);
+        result = 31 * result + Objects.hashCode(poster);
+        return result;
     }
 }

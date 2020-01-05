@@ -39,7 +39,7 @@ public class CRUDFilmTest {
     @Test
     public void deleteFilmTest() {
         Film film = mock(Film.class);
-        controller.delete(film);
+        controller.delete(film.getId());
 
         verify(repository, Mockito.times(1)).delete(film);
 

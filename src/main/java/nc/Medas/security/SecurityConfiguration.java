@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.MessageDigestPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
@@ -57,10 +58,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/screen**").permitAll()
                 .antMatchers(HttpMethod.GET, "/halls**").permitAll()
                 .antMatchers(HttpMethod.GET, "/films**").permitAll()
-                .antMatchers(HttpMethod.POST, "/tickets").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/tickets**").authenticated()
+                .antMatchers( "/users**").authenticated()
                 .antMatchers(HttpMethod.POST, "/films**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST, "/screen**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST, "/users**").hasRole("ADMIN");
+                .antMatchers(HttpMethod.POST, "/halls**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/screen**").hasRole("ADMIN");
     }
 
     @Bean
@@ -80,7 +82,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new MessageDigestPasswordEncoder("SHA-512");
+        return new BCryptPasswordEncoder();
     }
 
     @Bean

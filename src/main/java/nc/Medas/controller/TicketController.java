@@ -1,37 +1,38 @@
 package nc.Medas.controller;
 
 import nc.Medas.model.Ticket;
-import nc.Medas.repo.UserRepo;
 import nc.Medas.service.TicketService;
-import org.springframework.beans.factory.annotation.Autowired;
+import nc.Medas.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLException;
 import java.util.List;
 
 @RequestMapping("/tickets")
 @RestController
 public class TicketController {
 
-    @Autowired
-    private TicketService ticketService;
 
-    @Autowired
-    private UserRepo userRepo;
+    private final TicketService ticketService;
+    private final UserService userService;
+
+    public TicketController(TicketService ticketService, UserService userService) {
+        this.ticketService = ticketService;
+        this.userService = userService;
+    }
 
     @PostMapping
-    public Ticket saveTicket(@RequestBody Ticket ticket) throws SQLException {
-        return ticketService.saveTicketByTicket(ticket);
+    public Ticket saveTicket(@RequestBody Ticket ticket) {
+        return ticketService.save(ticket);
     }
 
     @GetMapping("{id}")
-    public List<Ticket> getTicket(@PathVariable("id") int idUser) throws SQLException {
-        return ticketService.getTicketsByUser(userRepo.findById(idUser).get());
+    public List<Ticket> getUserTickets(@PathVariable("id") int idUser) {
+        return ticketService.findTicketsByUser(userService.findById(idUser));
     }
 
     @GetMapping
     public List<Ticket> getAllTickets() {
-        return ticketService.getAllTickets();
+        return ticketService.findAll();
     }
 
 

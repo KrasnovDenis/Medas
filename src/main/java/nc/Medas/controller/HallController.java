@@ -1,34 +1,35 @@
 package nc.Medas.controller;
 
 import nc.Medas.model.Hall;
-import nc.Medas.repo.ScreenRepo;
+import nc.Medas.model.Screen;
 import nc.Medas.service.HallService;
+import nc.Medas.service.ScreenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLException;
-
 @RestController
 @RequestMapping("/halls")
-public class HallController  {
+public class HallController {
 
-    private HallService service;
-    private ScreenRepo screenRepo;
+    private final HallService hallService;
+    private final ScreenService screenService;
 
     @Autowired
-    HallController(HallService service, ScreenRepo screenRepo) {
-        this.screenRepo = screenRepo;
-        this.service = service;
+    public HallController(HallService service, ScreenService screenService) {
+        this.screenService = screenService;
+        this.hallService = service;
+    }
+    public Hall saveHall(@RequestBody Hall hall) {
+        return hallService.save(hall);
     }
 
     @GetMapping("/{id}")
-    public Hall getHall(@PathVariable("id") int hall,
-                               @RequestParam("id_screen") int screen) throws SQLException {
+    public Screen getHall(@PathVariable("id") int hall,
+                          @RequestParam("id_screen") int screen) {
 
 
-        return service.getHallByScreening(screenRepo.findById(screen).get());
+        return hallService.getHallByScreening(screenService.findById(screen));
     }
-
 
 
 

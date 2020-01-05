@@ -1,42 +1,36 @@
 package nc.Medas.controller;
 
 import nc.Medas.model.User;
-import nc.Medas.repo.UserRepo;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import nc.Medas.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/registration")
 public class Registration {
-    private final UserRepo repository;
+    
+    private final UserService service;
+    private final Logger LOG = LoggerFactory.getLogger(Registration.class);
 
+    public Registration(UserService service) {
 
-    Registration(UserRepo repository) {
-
-        this.repository = repository;
+        this.service = service;
     }
 
 
-    @PostMapping
-    public User createUser(@RequestBody User user)throws NoSuchAlgorithmException {
+    @PostMapping(value = "/registration")
+    public User createUser(@RequestBody User user) {
 
-        String hash = String.valueOf(new BigInteger(1,
-                MessageDigest.getInstance("SHA-512")
-                        .digest(user.getPassword().getBytes()))
-        );
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-        user.setPassword(hash);
+        user.setPassword(encoder.encode(user.getPassword()));
 
-        return repository.save(user);
-    }
 
-    @GetMapping
-    public String createUser() {
-        return "GET? WTF?!";
+        LOG.info("зарегистрирован пользователь " + user.getLogin());
+        return service.save(user);
     }
 
 

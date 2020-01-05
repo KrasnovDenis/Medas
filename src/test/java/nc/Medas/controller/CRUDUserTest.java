@@ -30,7 +30,7 @@ class CRUDUserTest {
 
         User user = mock(User.class);
 
-        controller.createUser(user);
+        controller.save(user);
         verify(repository, Mockito.times(1)).save(user);
     }
 }

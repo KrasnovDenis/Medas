@@ -1,57 +1,50 @@
 package nc.Medas.controller;
 
 import nc.Medas.model.User;
-import nc.Medas.repo.UserRepo;
+import nc.Medas.service.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
 
-
-    private final UserRepo repository;
+    private final UserService service;
 
     @Autowired
-    UserController(UserRepo repository) {
-        this.repository = repository;
+    public UserController(UserService service) {
+        this.service = service;
     }
 
     @GetMapping
     public List<User> list() {
-        return repository.findAll();
+        return service.findAll();
     }
 
     @GetMapping("{id}")
-    public User getOne(@PathVariable("id") int id) {
-        return repository.findById(id).get();
+    public User findById(@PathVariable("id") int id) {
+        return service.findById(id);
     }
-
-
 
     @PostMapping
-    public User createUser(@RequestBody User user) {
-        return repository.save(user);
+    public User save(@RequestBody User user) {
+        return service.save(user);
     }
 
-    @PutMapping("{id}")
-    public User update(
-            @PathVariable("id") User messageFromDb,
-            @RequestBody User message
-    ) {
-        BeanUtils.copyProperties(message, messageFromDb, "id");
-
-        return repository.save(messageFromDb);
+    @PutMapping
+    public void update(@RequestBody User user) {
+        service.update(user);
     }
 
     @DeleteMapping("{id}")
-    public void delete(@PathVariable("id") User message) {
+    public void delete(@PathVariable("id") int id) {
 
-        repository.delete(message);
+        service.deleteById(id);
     }
 
 
