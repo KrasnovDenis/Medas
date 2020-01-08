@@ -47,23 +47,17 @@ public class CRUDFilmTest {
 
     @Test
     public void getFilmTest() {
-//
-//        controller.getOne(1);
-//
-//        verify(repository, Mockito.times(1)).getOne(1);
+
+        controller.getOne(1);
+
+        verify(repository, Mockito.times(1)).getOne(1);
 
     }
 
     @Test
     public void updateFilmTest() {
-
-
-        Film filmOld = mock(Film.class);
         Film filmNew = mock(Film.class);
-
-
-        controller.update(filmOld, filmNew);
-
+        controller.update(filmNew);
         verify(repository, Mockito.times(1)).save(filmNew);
 
     }

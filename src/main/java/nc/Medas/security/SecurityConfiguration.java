@@ -1,7 +1,6 @@
 package nc.Medas.security;
 
 import com.google.common.collect.ImmutableList;
-import nc.Medas.repo.UserRepo;
 import nc.Medas.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -14,7 +13,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.MessageDigestPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -25,15 +23,12 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private MyBasicAuthenticationEntryPoint authenticationEntryPoint;
-
 
     private UserService userPrincipal;
 
 
-    public SecurityConfiguration(UserService userPrincipal, MyBasicAuthenticationEntryPoint authenticationEntryPoint) {
+    public SecurityConfiguration(UserService userPrincipal) {
         this.userPrincipal = userPrincipal;
-        this.authenticationEntryPoint = authenticationEntryPoint;
 
     }
 
@@ -49,7 +44,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .httpBasic()
-                .authenticationEntryPoint(authenticationEntryPoint)
                 .and()
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
@@ -59,7 +53,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/halls**").permitAll()
                 .antMatchers(HttpMethod.GET, "/films**").permitAll()
                 .antMatchers("/tickets**").authenticated()
-                .antMatchers( "/users**").authenticated()
+                .antMatchers("/users**").authenticated()
                 .antMatchers(HttpMethod.POST, "/films**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST, "/halls**").hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST, "/screen**").hasRole("ADMIN");

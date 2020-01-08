@@ -22,7 +22,7 @@ public class UserService implements UserDetailsService {
                 user.getLogin(), user.getTelephone(),
                 user.getEmail(), user.getRole());
     }
-    public User findById(int id) {
+    public User findById(long id) {
         return userRepo.findById(id).orElse(new User());
     }
 
@@ -34,7 +34,7 @@ public class UserService implements UserDetailsService {
         return userRepo.save(user);
     }
 
-    public void deleteById(int id) {
+    public void deleteById(long id) {
         userRepo.deleteById(id);
     }
 

@@ -21,7 +21,6 @@ public class Ticket {
         this.id = id;
     }
 
-
     @ManyToOne
     @JoinColumn(name = "id_user")
     public User getUser() {
@@ -31,6 +30,7 @@ public class Ticket {
     public void setUser(User user) {
         this.user = user;
     }
+
     @ManyToOne
     @JoinColumn(name = "id_screen")
     public Screen getScreen() {
@@ -66,4 +66,8 @@ public class Ticket {
     public int hashCode() {
         return Objects.hash(id, screen, user, chair);
     }
+
+
+
+
 }

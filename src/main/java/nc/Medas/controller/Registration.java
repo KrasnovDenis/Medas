@@ -24,6 +24,10 @@ public class Registration {
     @PostMapping(value = "/registration")
     public User createUser(@RequestBody User user) {
 
+        if(service.findByLogin(user.getLogin()) != null){
+            LOG.error("Дублирование логинов!");
+            return new User();
+        }
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
         user.setPassword(encoder.encode(user.getPassword()));

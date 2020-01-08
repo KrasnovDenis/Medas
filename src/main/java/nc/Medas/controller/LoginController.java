@@ -38,8 +38,13 @@ public class LoginController {
                 return userService.findByLogin(creds.getUsername());
 
             }
+            else{
+                LOG.info("неправильный пароль"  );
+            }
         }
-        LOG.info("Пользователь " +creds.getUsername() + " не найден"  );
+        else{
+            LOG.info("Пользователь " +creds.getUsername() + " не найден"  );
+        }
         return new User();
     }
 

@@ -13,19 +13,19 @@ import java.math.BigInteger;
 import java.sql.Date;
 
 @Repository
-public interface UserRepo  extends JpaRepository<User, Integer> {
+public interface UserRepo  extends JpaRepository<User, Long> {
     User findByLogin(String login);
 
     @Transactional
     @Modifying
     @Query("update User u set u.money = ?2 where u.id = ?1")
-    int setFixedMoneyFor(int id, double money);
+    int setFixedMoneyFor(long id, double money);
 
 
     @Transactional
     @Modifying
     @Query("update User u set u.role = ?10 , u.email=?9,u.telephone=?8,u.login=?7,u.password=?6, u.money = ?5, u.birthDate = ?4, u.lastName = ?3, u.firstName = ?2 where u.id = ?1")
-    void update(int id, String fistName, String lastName, Date birthDate, double money, String password, String login, String telephone, String email, String role);
+    void update(long id, String fistName, String lastName, Date birthDate, double money, String password, String login, String telephone, String email, String role);
 
 
 }
