@@ -1,15 +1,26 @@
 package nc.Medas.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
 public class Screen {
+
+    @NotNull
     private int id;
+
+    @NotNull
     private Hall hall;
+
+    @NotNull
     private Film film;
+
+    @NotNull
     private Timestamp dateTime;
+
+    @NotNull
     private double price;
 
     @Id

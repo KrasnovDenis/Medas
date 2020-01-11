@@ -1,15 +1,18 @@
 package nc.Medas.service;
 
+import nc.Medas.exception.EntityNotFoundException;
 import nc.Medas.model.Screen;
 import nc.Medas.model.Ticket;
 import nc.Medas.model.User;
 import nc.Medas.repo.ScreenRepo;
 import nc.Medas.repo.TicketRepo;
 import nc.Medas.repo.UserRepo;
-import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -38,19 +41,30 @@ public class TicketService {
     @Transactional
     public Ticket save(Ticket ticket) {
 
-        User user = userRepo.findById(ticket.getUser().getId()).orElse(new User());
-        Screen screen = screenRepo.findById(ticket.getScreen().getId()).orElse(new Screen());
+        User user = userRepo.findById(ticket.getUser().getId())
+                .orElseThrow(() -> new EntityNotFoundException(ticket.getUser().getId() + " id"));
+
+        Screen screen = screenRepo.findById(ticket.getScreen().getId())
+                .orElseThrow(() -> new EntityNotFoundException(ticket.getScreen().getId() + "id"));
+
         if (hasMoneyForFilm(user, screen)) {
             try {
-                userRepo.setFixedMoneyFor(user.getId(),user.getMoney()-screen.getPrice());
+                userRepo.setFixedMoneyFor(user.getId(), user.getMoney() - screen.getPrice());
                 return ticketRepo.save(ticket);
-            } catch (ConstraintViolationException e) {
-                LOG.error(e.getMessage() + "Попытка купить занятое место");
+            } catch (DataIntegrityViolationException e) {
+                LOG.error(" Attempt to buy busy seat! ");
+                throw new ResponseStatusException(
+                        HttpStatus.CONFLICT, "Seat is busy");
             }
 
         }
+        else {
+            LOG.error("Not enough money for the ticket");
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT, "Not enough money!");
+        }
 
-        return new Ticket();
+
     }
 
     public List<Ticket> findTicketsByUser(User user) {
@@ -61,8 +75,7 @@ public class TicketService {
         return ticketRepo.findAll();
     }
 
-    public Ticket findTicketByUserId(int id) {
-        return ticketRepo.findById(id).orElse(new Ticket());
+    public List<Ticket> getBusySeats(Screen screen) {
+        return ticketRepo.findTicketsByScreen(screen);
     }
-
 }

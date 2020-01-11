@@ -1,5 +1,6 @@
 package nc.Medas.controller;
 
+import nc.Medas.exception.UserAlreadyExistException;
 import nc.Medas.model.User;
 import nc.Medas.service.UserService;
 import org.slf4j.Logger;
@@ -25,15 +26,15 @@ public class Registration {
     public User createUser(@RequestBody User user) {
 
         if(service.findByLogin(user.getLogin()) != null){
-            LOG.error("Дублирование логинов!");
-            return new User();
+            LOG.error("Not unique login!");
+            throw new UserAlreadyExistException("User with login " + user.getLogin() + " is already exist");
         }
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
         user.setPassword(encoder.encode(user.getPassword()));
 
 
-        LOG.info("зарегистрирован пользователь " + user.getLogin());
+        LOG.info("User has been registered " + user.getLogin());
         return service.save(user);
     }
 

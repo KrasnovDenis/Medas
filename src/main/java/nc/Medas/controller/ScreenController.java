@@ -1,10 +1,11 @@
 package nc.Medas.controller;
 
+import nc.Medas.exception.EntityNotFoundException;
 import nc.Medas.model.Screen;
 import nc.Medas.service.ScreenService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLException;
 import java.util.List;
 
 @RestController
@@ -31,8 +32,12 @@ public class ScreenController {
 
 
     @GetMapping("{id}")
-    public Screen getOne(@PathVariable("id") int id) {
-        return screenService.findById(id);
+    public ResponseEntity<Screen> getOne(@PathVariable("id") int id) {
+
+        return screenService.findById(id)
+                .map(x->ResponseEntity.ok(x))
+                .orElseThrow(() -> new EntityNotFoundException( id +" id"));
+
     }
 
 }

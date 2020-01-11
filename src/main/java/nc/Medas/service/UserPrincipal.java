@@ -7,11 +7,15 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-
-import java.util.*;
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 @Service
 public class UserPrincipal implements UserDetails {
+    @NotNull
     private User user;
 
     public User getUser() {

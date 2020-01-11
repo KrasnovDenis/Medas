@@ -1,12 +1,16 @@
 package nc.Medas.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Entity
 public class Hall {
+    @NotNull
     private int id;
+    @NotNull
     private String title;
+    @NotNull
     private short capacity;
 
     @Id

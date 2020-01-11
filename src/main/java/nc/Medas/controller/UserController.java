@@ -1,9 +1,10 @@
 package nc.Medas.controller;
 
+import nc.Medas.exception.EntityNotFoundException;
 import nc.Medas.model.User;
 import nc.Medas.service.UserService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,8 +28,8 @@ public class UserController {
     }
 
     @GetMapping("{id}")
-    public User findById(@PathVariable("id") int id) {
-        return service.findById(id);
+    public ResponseEntity<User> findById(@PathVariable("id") long id) {
+        return service.findById(id).map(x->ResponseEntity.ok(x)).orElseThrow(()->new EntityNotFoundException(id + " ID"));
     }
 
     @PostMapping
@@ -42,8 +43,7 @@ public class UserController {
     }
 
     @DeleteMapping("{id}")
-    public void delete(@PathVariable("id") int id) {
-
+    public void delete(@PathVariable("id") long id) {
         service.deleteById(id);
     }
 

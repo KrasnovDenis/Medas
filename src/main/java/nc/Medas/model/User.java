@@ -1,20 +1,31 @@
 package nc.Medas.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.sql.Date;
 import java.util.Objects;
 
 @Entity
 public class User {
+    @NotNull
     private long id;
+    @NotNull
     private String firstName;
+    @NotNull
     private String lastName;
+    @NotNull
     private Date birthDate;
+    @NotNull
     private String telephone;
+    @NotNull
     private String password;
+    @NotNull
     private String login;
+    @NotNull
     private String role;
+    @NotNull
     private double money;
+    @NotNull
     private String email;
 
     @Id

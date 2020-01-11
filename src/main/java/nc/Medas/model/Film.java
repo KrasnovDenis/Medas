@@ -1,20 +1,29 @@
 package nc.Medas.model;
 
-import org.springframework.data.util.Lazy;
-
-import javax.persistence.*;
-import java.util.Arrays;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Entity
 public class Film {
+    @NotNull
     private int id;
+    @NotNull
     private short duration;
+    @NotNull
     private String title;
+    @NotNull
     private String poster;
+    @NotNull
     private double rating;
+    @NotNull
     private String director;
+    @NotNull
     private String producer;
+    @NotNull
     private int countReview;
 
     @Id

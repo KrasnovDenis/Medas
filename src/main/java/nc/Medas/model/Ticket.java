@@ -1,13 +1,18 @@
 package nc.Medas.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Entity
 public class Ticket {
+    @NotNull
     private int id;
+    @NotNull
     private User user;
+    @NotNull
     private Screen screen;
+    @NotNull
     private short chair;
 
     @Id
@@ -66,8 +71,6 @@ public class Ticket {
     public int hashCode() {
         return Objects.hash(id, screen, user, chair);
     }
-
-
 
 
 }

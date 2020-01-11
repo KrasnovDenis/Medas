@@ -5,25 +5,28 @@ import nc.Medas.repo.UserRepo;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService implements UserDetailsService {
     private final UserRepo userRepo;
 
-    public UserService( UserRepo userRepo) {
+    public UserService(UserRepo userRepo) {
         this.userRepo = userRepo;
     }
 
-    public void update( User user){
+    public void update(User user) {
         userRepo.update(user.getId(), user.getFirstName(),
                 user.getLastName(), user.getBirthDate(),
                 user.getMoney(), user.getPassword(),
                 user.getLogin(), user.getTelephone(),
                 user.getEmail(), user.getRole());
     }
-    public User findById(long id) {
-        return userRepo.findById(id).orElse(new User());
+
+    public Optional<User> findById(long id) {
+        return userRepo.findById(id);
     }
 
     public List<User> findAll() {
@@ -45,9 +48,14 @@ public class UserService implements UserDetailsService {
     public User findByLogin(String login) {
         return userRepo.findByLogin(login);
     }
+
     @Override
     public UserDetails loadUserByUsername(String login) {
-        return new UserPrincipal(userRepo.findByLogin(login));
+        User user = userRepo.findByLogin(login);
+        if(user == null){
+            return null;
+        }
+        return new UserPrincipal(user);
     }
 
 }

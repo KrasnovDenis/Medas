@@ -1,7 +1,9 @@
 package nc.Medas.controller;
 
+import nc.Medas.exception.EntityNotFoundException;
 import nc.Medas.model.Film;
 import nc.Medas.service.FilmService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,8 +28,11 @@ public class FilmController {
     }
 
     @GetMapping("/{id}")
-    public Film getOne(@PathVariable("id") int idFilm) {
-        return filmService.findById(idFilm);
+    public ResponseEntity<Film> getOne(@PathVariable("id") int idFilm) {
+
+        return filmService.findById(idFilm)
+                .map(x -> ResponseEntity.ok(x))
+                .orElseThrow(()-> new EntityNotFoundException(idFilm + " id "));
     }
 
     @PostMapping

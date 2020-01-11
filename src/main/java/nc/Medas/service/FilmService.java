@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class FilmService {
@@ -19,7 +20,7 @@ public class FilmService {
     }
 
     public Film save(Film film) {
-        LOG.info("Добавлен фильм "+ film.getTitle());
+        LOG.info("Film was added "+ film.getTitle());
         return filmRepo.save(film);
     }
 
@@ -33,8 +34,8 @@ public class FilmService {
         return filmRepo.findAll();
     }
 
-    public Film findById(int id){
-       return filmRepo.findById(id).orElse(new Film());
+    public Optional<Film> findById(int id){
+       return filmRepo.findById(id);
     }
 
     public void deleteById(int id) {
